@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core'
-import { Hero } from "./hero";
-import { HEROES } from "./mock-heroes";
+import { Headers, Http } from '@angular/http';
 
+import 'rxjs/add/operator/toPromise';
+
+import { Hero } from "./hero";
 
 @Injectable()
 export class HeroService{
+
+  //URL to web api
+  private heroesUrl = 'api/heroes';
+
+  constructor(private http: Http) { }
 
   getHero(id: number): Promise<Hero>{
     return this.getHeroes()
@@ -12,7 +19,10 @@ export class HeroService{
   }
 
   getHeroes(): Promise<Hero[]> {
-    return Promise.resolve(HEROES);
+    return this.http.get(this.heroesUrl)
+            .toPromise()
+            .then(response => response.json().data as Hero[])
+            .catch(this.handleError);
   }
 
   getHeroesSlowly(): Promise<Hero[]> {
@@ -21,4 +31,11 @@ export class HeroService{
       setTimeout(() => resolve(this.getHeroes()), 2000);
     });
   }
+
+  private handleError(error: any): Promise<any> {
+    //for demo purpose only
+    console.error('An error occured', error);
+    return Promise.reject(error.message || error);
+  }
+
 }
