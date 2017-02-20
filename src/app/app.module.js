@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
+var router_1 = require('@angular/router');
 var heroes_component_1 = require('./heroes.component');
 var hero_detail_component_1 = require("./hero-detail.component");
 var hero_service_1 = require("./hero.service");
@@ -22,15 +23,21 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                router_1.RouterModule.forRoot([
+                    {
+                        path: 'heroes',
+                        component: heroes_component_1.HeroesComponent
+                    }
+                ])
             ],
             declarations: [
                 app_component_1.AppComponent,
                 heroes_component_1.HeroesComponent,
                 hero_detail_component_1.HeroDetailComponent
             ],
-            bootstrap: [app_component_1.AppComponent],
-            providers: [hero_service_1.HeroService]
+            providers: [hero_service_1.HeroService],
+            bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
