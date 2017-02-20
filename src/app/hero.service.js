@@ -18,8 +18,11 @@ var HeroService = (function () {
         this.heroesUrl = 'api/heroes';
     }
     HeroService.prototype.getHero = function (id) {
-        return this.getHeroes()
-            .then(function (heroes) { return heroes.find(function (hero) { return hero.id === id; }); });
+        var url = this.heroesUrl + "/" + id;
+        return this.http.get(url)
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
     };
     HeroService.prototype.getHeroes = function () {
         return this.http.get(this.heroesUrl)
